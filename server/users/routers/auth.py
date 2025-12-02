@@ -38,7 +38,7 @@ async def register(user: SignIn) -> dict:
     }  
 
 
-@router.get('/login')
+@router.post('/login')
 async def login_user(email, password) -> dict:
     url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={API_KEY_FIREBASE}"
     payload = {

@@ -20,7 +20,7 @@ async def delete_user(email: str) -> dict:
 
     return {
         "uid": user.uid,
-        "sucess": "true"
+        "success": "true"
     }
 
 
