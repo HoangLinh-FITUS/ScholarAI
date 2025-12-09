@@ -1,4 +1,12 @@
 services:
+    client:
+        build: ./client
+        ports:
+            - 3000:3000
+        depends_on:
+            - users 
+            - manage 
+            
     users: 
         build: ./server/users
         ports: 
