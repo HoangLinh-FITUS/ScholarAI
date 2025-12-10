@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import { Header } from "@/components/header"
+import { Navbar } from "@/components/navbar"
 import { DocumentCard } from "@/components/document-card"
 import { apiClient } from "@/lib/api-client"
 import type { DocumentDetails } from "@/lib/types"
@@ -32,8 +32,8 @@ export default function DocumentDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <Navbar />
         <div className="flex items-center justify-center py-32">
           <Loader className="animate-spin text-[#1F43C0]" size={32} />
         </div>
@@ -43,9 +43,9 @@ export default function DocumentDetailsPage() {
 
   if (!document) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="max-w-4xl mx-auto px-4 py-8">
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <Navbar />
+        <main className="max-w-4xl mx-auto px-4 py-8 flex-1">
           <Link href="/" className="inline-flex items-center gap-2 text-[#1F43C0] hover:opacity-80 mb-4">
             <ChevronLeft size={20} />
             Back to search
@@ -57,9 +57,9 @@ export default function DocumentDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="max-w-4xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Navbar />
+      <main className="max-w-4xl mx-auto px-4 py-8 flex-1">
         {/* Navigation */}
         <Link href="/" className="inline-flex items-center gap-2 text-[#1F43C0] hover:opacity-80 mb-6">
           <ChevronLeft size={20} />

@@ -2,6 +2,36 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api"
 
 export const apiClient = {
+  // Authentication
+  async login(email: string, password: string) {
+    const response = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+    if (!response.ok) throw new Error("Login failed")
+    return response.json()
+  },
+
+  async signup(email: string, password: string, name: string) {
+    const response = await fetch(`${BASE_URL}/auth/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, name }),
+    })
+    if (!response.ok) throw new Error("Signup failed")
+    return response.json()
+  },
+
+  async logout() {
+    const response = await fetch(`${BASE_URL}/auth/logout`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    })
+    if (!response.ok) throw new Error("Logout failed")
+    return response.json()
+  },
+
   // Search for documents
   async search(query: string, limit = 10, offset = 0) {
     const response = await fetch(`${BASE_URL}/search`, {

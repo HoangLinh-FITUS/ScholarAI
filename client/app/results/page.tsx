@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { Header } from "@/components/header"
+import { Navbar } from "@/components/navbar"
 import { SearchBar } from "@/components/search-bar"
 import { DocumentCard } from "@/components/document-card"
 import { apiClient } from "@/lib/api-client"
@@ -45,10 +45,9 @@ function ResultsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* Back and search */}
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Navbar />
+      <main className="max-w-6xl mx-auto px-4 py-8 flex-1">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-[#1F43C0] hover:opacity-80 mb-4">
             <ChevronLeft size={20} />
@@ -57,7 +56,6 @@ function ResultsContent() {
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
         </div>
 
-        {/* Results header */}
         {!isLoading && query && (
           <div className="mb-6">
             <h2 className="font-sans font-bold text-2xl text-[#1F43C0]">Search results for "{query}"</h2>
@@ -65,14 +63,12 @@ function ResultsContent() {
           </div>
         )}
 
-        {/* Loading state */}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
             <Loader className="animate-spin text-[#1F43C0]" size={32} />
           </div>
         )}
 
-        {/* Results grid */}
         {!isLoading && documents.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {documents.map((doc) => (
@@ -81,7 +77,6 @@ function ResultsContent() {
           </div>
         )}
 
-        {/* Empty state */}
         {!isLoading && documents.length === 0 && query && (
           <div className="text-center py-20">
             <p className="text-gray-500 text-lg">No documents found for your search.</p>

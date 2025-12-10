@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Blinker, Battambang } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { AuthProvider } from "@/components/auth-provider"
 import "./globals.css"
 
 const blinker = Blinker({
@@ -47,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${blinker.variable} ${battambang.variable}`}>
       <body className="font-sans antialiased">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <Analytics />
       </body>
     </html>
