@@ -29,7 +29,7 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
 
   return (
     <div className="flex gap-2 w-full">
-      <label className="flex-1 relative flex items-center bg-[#9DFECB] rounded-full px-5 py-3 border-2 border-[#9DFECB]">
+      <div className="flex-1 relative flex items-center bg-[#9DFECB] rounded-full px-5 py-3 border-2 border-[#9DFECB]">
         {onFileUpload && (
           <input
             type="file"
@@ -67,7 +67,7 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
         >
           <Search size={24} />
         </button>
-      </label>
+      </div>
     </div>
   )
 }
