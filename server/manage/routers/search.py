@@ -35,7 +35,7 @@ async def with_file(
 ):
     
     file: bytes = await file.read()
-    print(file)
+    # print(file)
     
     res = []
     for _ in range(limit):

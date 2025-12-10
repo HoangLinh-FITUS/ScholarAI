@@ -30,20 +30,26 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
   return (
     <div className="flex gap-2 w-full">
       <label className="flex-1 relative flex items-center bg-[#9DFECB] rounded-full px-5 py-3 border-2 border-[#9DFECB]">
-        <input
-          type="file"
-          accept=".pdf,.txt,.doc,.docx"
-          onChange={handleFileChange}
-          className="hidden"
-          title="Upload a document"
-        />
-        <button
-          type="button"
-          onClick={() => document.querySelector('input[type="file"]')?.click()}
-          className="text-2xl font-bold text-[#1F43C0] mr-3 hover:opacity-80"
-        >
-          +
-        </button>
+        {onFileUpload && (
+          <input
+            type="file"
+            accept=".pdf,.txt,.doc,.docx"
+            onChange={handleFileChange}
+            className="hidden"
+            title="Upload a document"
+          />
+        )}
+        
+        {onFileUpload && (
+          <button
+            type="button"
+            onClick={() => document.querySelector('input[type="file"]')?.click()}
+            className="text-2xl font-bold text-[#1F43C0] mr-3 hover:opacity-80"
+          >
+            +
+          </button>
+        )}
+
         <input
           type="text"
           value={query}

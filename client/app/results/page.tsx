@@ -16,9 +16,15 @@ function ResultsContent() {
   const [documents, setDocuments] = useState<Document[]>([])
   const [isLoading, setIsLoading] = useState(!!query)
   const [totalCount, setTotalCount] = useState(0)
+  const [searchMode, setSearchMode] = useState<"text" | "file">("text")
+  const [fileName, setFileName] = useState<string | null>(null)
+
 
   useEffect(() => {
     if (query) {
+      setFileName(null)
+      setSearchMode("text")
+      
       fetchResults(query)
     }
   }, [query])
@@ -27,8 +33,7 @@ function ResultsContent() {
     setIsLoading(true)
     try {
       const results = await apiClient.search(searchQuery)
-      console.log(results)
-      console.log(results[0].id)
+
       setDocuments(results || [])
       setTotalCount(results.length || 0)
     } catch (error) {
@@ -51,20 +56,24 @@ function ResultsContent() {
   } 
 
   const handleSearch = async (newQuery: string) => {
-    setIsLoading(true)
+    // setFileName(null)
+    // setSearchMode("text")
+    // setIsLoading(true)
+    
     const url = new URL(window.location.href)
     url.searchParams.set("q", newQuery)
     window.history.pushState({}, "", url)
-    await fetchResults(newQuery)
+    // await fetchResults(newQuery)
   }
 
   const handleFileSearch = async (file: File) => {
+    setFileName(file.name)
+    setSearchMode("file")
     setIsLoading(true)
-
+    
     const url = new URL(window.location.href)
     url.searchParams.delete("q")
     window.history.pushState({}, "", url)
-
     await fetchResultsFile(file)
   }
 
@@ -80,10 +89,21 @@ function ResultsContent() {
           <SearchBar onSearch={handleSearch} onFileUpload={handleFileSearch} isLoading={isLoading} />
         </div>
 
-        {!isLoading && query && (
+        {!isLoading && searchMode === "text" && query && (
           <div className="mb-6">
             <h2 className="font-sans font-bold text-2xl text-[#1F43C0]">Search results for "{query}"</h2>
             <p className="text-gray-600 text-sm mt-1">Found {totalCount} documents</p>
+          </div>
+        )}
+
+        {!isLoading && searchMode === "file" && (
+          <div className="mb-6">
+            <h2 className="font-sans font-bold text-2xl text-[#1F43C0]">
+              {query ? `Search results for "${query}"` : `Search results from ${fileName}`}
+            </h2>
+            <p className="text-gray-600 text-sm mt-1">
+              Found {totalCount} documents
+            </p>
           </div>
         )}
 

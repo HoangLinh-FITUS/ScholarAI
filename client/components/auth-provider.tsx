@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       setUser(userData)
       localStorage.setItem("docbert_user", JSON.stringify(userData))
-      localStorage.setItem("docbert_token", response.token)
+      localStorage.setItem("docbert_token", response.idToken)
       router.push("/")
     } finally {
       setIsLoading(false)
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await apiClient.signup(email, password, name)
       const userData: User = {
-        id: response.id,
+        id: response.localId,
         email: response.email,
         name: response.name,
       }
@@ -83,6 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem("docbert_user")
       localStorage.removeItem("docbert_token")
       router.push("/login")
+      setIsLoading(false)
     }
   }
 

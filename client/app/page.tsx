@@ -13,7 +13,7 @@ export default function HomePage() {
   const handleSearch = async (query: string) => {
     setIsLoading(true)
     try {
-      const results = await apiClient.search(query)
+      // const results = await apiClient.search(query)
       router.push(`/results?q=${encodeURIComponent(query)}`)
     } catch (error) {
       console.error("Search error:", error)
@@ -23,18 +23,18 @@ export default function HomePage() {
     }
   }
 
-  const handleFileUpload = async (file: File) => {
-    setIsLoading(true)
-    try {
-      const results = await apiClient.searchByFile(file)
-      router.push(`/results?file=${file.name}`)
-    } catch (error) {
-      console.error("File upload error:", error)
-      alert("File upload failed. Please try again.")
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  // const handleFileUpload = async (file: File) => {
+  //   setIsLoading(true)
+  //   try {
+  //     const results = await apiClient.searchByFile(file)
+  //     router.push(`/results?file=${file.name}`)
+  //   } catch (error) {
+  //     console.error("File upload error:", error)
+  //     alert("File upload failed. Please try again.")
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
 
   return (
     <div className="min-h-screen bg-[#1F43C0] flex flex-col">
@@ -49,7 +49,8 @@ export default function HomePage() {
             <span className="text-[#9DFECB]"> you need?</span>
           </p>
 
-          <SearchBar onSearch={handleSearch} onFileUpload={handleFileUpload} isLoading={isLoading} />
+          {/* <SearchBar onSearch={handleSearch} onFileUpload={handleFileUpload} isLoading={isLoading} /> */}
+          <SearchBar onSearch={handleSearch} isLoading={isLoading} />
         </div>
       </main>
     </div>

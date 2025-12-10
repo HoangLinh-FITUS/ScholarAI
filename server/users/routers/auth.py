@@ -1,7 +1,7 @@
 import requests
 import firebase_admin
 from firebase_admin import auth
-from fastapi import HTTPException, APIRouter
+from fastapi import HTTPException, APIRouter, Header
 
 from firebase_init import db
 from models.auth import SignIn, Login
@@ -51,6 +51,27 @@ async def login_user(user: Login) -> dict:
     if res.status_code == 200: return res.json()
     raise HTTPException(status_code=400, detail='login failed') 
 
+@router.post("/logout")
+async def logout(authorization: str = Header(...)):
+    try:
+        if not authorization.startswith("Bearer "):
+            raise HTTPException(status_code=401, detail="Invalid authorization header")
+
+        id_token = authorization.split(" ")[1]
+
+        decoded_token = auth.verify_id_token(id_token)
+        uid = decoded_token["uid"]
+
+        auth.revoke_refresh_tokens(uid)
+
+        return {
+            "message": "Logout successful"
+        }
+
+    except auth.InvalidIdTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post('/reset_password')
 async def reset_password(email: str) -> dict: 
@@ -64,3 +85,4 @@ async def reset_password(email: str) -> dict:
     return {
         "link_reset": link 
     }
+

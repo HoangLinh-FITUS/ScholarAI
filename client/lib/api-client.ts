@@ -31,10 +31,13 @@ export const apiClient = {
   },
 
   async logout() {
+    const token = localStorage.getItem("docbert_token")
+
     const response = await fetch(`${AUTH_BASE_URL}/auth/logout`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     })
+    console.log(response.ok)
     if (!response.ok) throw new Error("Logout failed")
     return response.json()
   },
