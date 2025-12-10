@@ -4,7 +4,7 @@ from firebase_admin import auth
 from fastapi import HTTPException, APIRouter
 
 from firebase_init import db
-from models.auth import SignIn
+from models.auth import SignIn, Login
 from config import API_KEY_FIREBASE
 
 
@@ -39,11 +39,11 @@ async def register(user: SignIn) -> dict:
 
 
 @router.post('/login')
-async def login_user(email, password) -> dict:
+async def login_user(user: Login) -> dict:
     url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={API_KEY_FIREBASE}"
     payload = {
-        "email": email,
-        "password": password,
+        "email": user.email,
+        "password": user.password,
         "returnSecureToken": True
     }
     res = requests.post(url, json=payload)

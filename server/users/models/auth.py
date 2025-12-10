@@ -8,3 +8,8 @@ class SignIn:
     full_name: str 
     phone: str 
 
+@dataclass
+class Login: 
+    email: str 
+    password: str  
+

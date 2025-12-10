@@ -1,10 +1,11 @@
 // Centralized API client for backend integration
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api"
+const AUTH_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+const SEARCH_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001"
 
 export const apiClient = {
   // Authentication
   async login(email: string, password: string) {
-    const response = await fetch(`${BASE_URL}/auth/login`, {
+    const response = await fetch(`${AUTH_BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -14,17 +15,23 @@ export const apiClient = {
   },
 
   async signup(email: string, password: string, name: string) {
-    const response = await fetch(`${BASE_URL}/auth/signup`, {
+    const response = await fetch(`${AUTH_BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, name }),
+      body: JSON.stringify({ 
+        "email": email, 
+        "password": password, 
+        "full_name": name, 
+        "role": "user", 
+        "phone": "1234567889"
+      }),
     })
     if (!response.ok) throw new Error("Signup failed")
     return response.json()
   },
 
   async logout() {
-    const response = await fetch(`${BASE_URL}/auth/logout`, {
+    const response = await fetch(`${AUTH_BASE_URL}/auth/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     })
@@ -34,10 +41,10 @@ export const apiClient = {
 
   // Search for documents
   async search(query: string, limit = 10, offset = 0) {
-    const response = await fetch(`${BASE_URL}/search`, {
+    const response = await fetch(`${SEARCH_BASE_URL}/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query, limit, offset }),
+      body: JSON.stringify({ query, limit }),
     })
     if (!response.ok) throw new Error("Search failed")
     return response.json()
@@ -47,7 +54,7 @@ export const apiClient = {
   async searchByFile(file: File) {
     const formData = new FormData()
     formData.append("file", file)
-    const response = await fetch(`${BASE_URL}/search-by-file`, {
+    const response = await fetch(`${SEARCH_BASE_URL}/search-by-file`, {
       method: "POST",
       body: formData,
     })
@@ -57,7 +64,7 @@ export const apiClient = {
 
   // Get document details
   async getDocumentDetails(documentId: string) {
-    const response = await fetch(`${BASE_URL}/documents/${documentId}`)
+    const response = await fetch(`${SEARCH_BASE_URL}/documents/${documentId}`)
     if (!response.ok) throw new Error("Failed to fetch document details")
     return response.json()
   },
