@@ -44,7 +44,7 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
           <button
             type="button"
             onClick={() => document.querySelector('input[type="file"]')?.click()}
-            className="text-2xl font-bold text-[#1F43C0] mr-3 hover:opacity-80"
+            className="text-2xl font-bold text-[#1F43C0] mr-3 hover:opacity-80 cursor-pointer"
           >
             +
           </button>
@@ -62,7 +62,7 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
         <button
           onClick={handleSearch}
           disabled={isLoading}
-          className="text-[#1F43C0] hover:opacity-80 disabled:opacity-50"
+          className="text-[#1F43C0] hover:opacity-80 disabled:opacity-50 cursor-pointer"
           title="Search"
         >
           <Search size={24} />
