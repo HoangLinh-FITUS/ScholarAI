@@ -35,7 +35,7 @@ export default function DocumentDetailsPage() {
       <div className="min-h-screen bg-gray-50 flex flex-col">
         <Navbar />
         <div className="flex items-center justify-center py-32">
-          <Loader className="animate-spin text-[#1F43C0]" size={32} />
+          <Loader className="animate-spin text-[#0E1D40]" size={32} />
         </div>
       </div>
     )
@@ -46,7 +46,7 @@ export default function DocumentDetailsPage() {
       <div className="min-h-screen bg-gray-50 flex flex-col">
         <Navbar />
         <main className="max-w-4xl mx-auto px-4 py-8 flex-1">
-          <Link href="/" className="inline-flex items-center gap-2 text-[#1F43C0] hover:opacity-80 mb-4">
+          <Link href="/" className="inline-flex items-center gap-2 text-[#0E1D40] hover:opacity-80 mb-4">
             <ChevronLeft size={20} />
             Back to search
           </Link>
@@ -61,21 +61,21 @@ export default function DocumentDetailsPage() {
       <Navbar />
       <main className="max-w-4xl mx-auto px-4 py-8 flex-1">
         {/* Navigation */}
-        <Link href="/" className="inline-flex items-center gap-2 text-[#1F43C0] hover:opacity-80 mb-6">
+        <Link href="/" className="inline-flex items-center gap-2 text-[#0E1D40] hover:opacity-80 mb-6">
           <ChevronLeft size={20} />
           Back to search
         </Link>
 
         {/* Document header */}
         <article className="bg-white rounded-lg p-8 shadow-sm mb-8">
-          <h1 className="font-sans font-bold text-4xl text-[#1F43C0] mb-4">{document.title}</h1>
+          <h1 className="font-sans font-bold text-4xl text-[#0E1D40] mb-4">{document.title}</h1>
 
           {/* Authors */}
           <div className="mb-4">
             <p className="text-sm text-gray-600 mb-2">Authors</p>
             <div className="flex flex-wrap gap-2">
               {document.authors.map((author, idx) => (
-                <span key={idx} className="bg-[#9DFECB]/20 text-[#1F43C0] px-3 py-1 rounded text-sm">
+                <span key={idx} className="bg-[#CCF5AC]/20 text-[#0E1D40] px-3 py-1 rounded text-sm">
                   {author}
                 </span>
               ))}
@@ -86,18 +86,18 @@ export default function DocumentDetailsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 pb-6 border-b border-gray-200">
             <div>
               <p className="text-xs text-gray-500 mb-1">Publication Date</p>
-              <p className="font-sans font-bold text-[#1F43C0]">
+              <p className="font-sans font-bold text-[#0E1D40]">
                 {new Date(document.publicationDate).toLocaleDateString()}
               </p>
             </div>
             <div>
               <p className="text-xs text-gray-500 mb-1">Relevance Score</p>
-              <p className="font-sans font-bold text-[#1F43C0]">{(document.relevanceScore * 100).toFixed(1)}%</p>
+              <p className="font-sans font-bold text-[#0E1D40]">{(document.relevanceScore * 100).toFixed(1)}%</p>
             </div>
             {document.citations !== undefined && (
               <div>
                 <p className="text-xs text-gray-500 mb-1">Citations</p>
-                <p className="font-sans font-bold text-[#1F43C0]">{document.citations}</p>
+                <p className="font-sans font-bold text-[#0E1D40]">{document.citations}</p>
               </div>
             )}
             {document.fileUrl && (
@@ -105,7 +105,7 @@ export default function DocumentDetailsPage() {
                 <a
                   href={document.fileUrl}
                   download
-                  className="inline-flex items-center gap-1 bg-[#1F43C0] text-white px-3 py-2 rounded text-sm hover:opacity-90"
+                  className="inline-flex items-center gap-1 bg-[#0E1D40] text-white px-3 py-2 rounded text-sm hover:opacity-90"
                 >
                   <Download size={16} />
                   Download
@@ -116,14 +116,14 @@ export default function DocumentDetailsPage() {
 
           {/* Abstract */}
           <div className="mb-8">
-            <h2 className="font-sans font-bold text-xl text-[#1F43C0] mb-3">Abstract</h2>
+            <h2 className="font-sans font-bold text-xl text-[#0E1D40] mb-3">Abstract</h2>
             <p className="text-gray-700 leading-relaxed">{document.abstract}</p>
           </div>
 
           {/* Tags */}
           {document.tags && document.tags.length > 0 && (
             <div className="mb-8">
-              <h2 className="font-sans font-bold text-xl text-[#1F43C0] mb-3">Tags</h2>
+              <h2 className="font-sans font-bold text-xl text-[#0E1D40] mb-3">Tags</h2>
               <div className="flex flex-wrap gap-2">
                 {document.tags.map((tag, idx) => (
                   <span key={idx} className="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm">
@@ -138,7 +138,7 @@ export default function DocumentDetailsPage() {
         {/* Related documents */}
         {document.relatedDocuments && document.relatedDocuments.length > 0 && (
           <section>
-            <h2 className="font-sans font-bold text-2xl text-[#1F43C0] mb-4">Related Documents</h2>
+            <h2 className="font-sans font-bold text-2xl text-[#0E1D40] mb-4">Related Documents</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {document.relatedDocuments.map((relatedDoc) => (
                 <DocumentCard key={relatedDoc.id} document={relatedDoc} />

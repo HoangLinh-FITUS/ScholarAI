@@ -29,7 +29,7 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
 
   return (
     <div className="flex gap-2 w-full">
-      <div className="flex-1 relative flex items-center bg-[#9DFECB] rounded-full px-5 py-3 border-2 border-[#9DFECB]">
+      <div className="flex-1 relative flex items-center bg-[#CCF5AC] rounded-full px-5 py-3 border-2 border-[#CCF5AC]">
         {onFileUpload && (
           <input
             type="file"
@@ -44,7 +44,7 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
           <button
             type="button"
             onClick={() => document.querySelector('input[type="file"]')?.click()}
-            className="text-2xl font-bold text-[#1F43C0] mr-3 hover:opacity-80 cursor-pointer"
+            className="text-2xl font-bold text-[#0E1D40] mr-3 hover:opacity-80 cursor-pointer"
           >
             +
           </button>
@@ -56,13 +56,13 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
           onChange={(e) => setQuery(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           placeholder="Search for documents..."
-          className="flex-1 bg-transparent outline-none text-[#1F43C0] placeholder-[#1F43C0]/60 font-blinker"
+          className="flex-1 bg-transparent outline-none text-[#0E1D40] placeholder-[#0E1D40]/60 font-blinker"
           disabled={isLoading}
         />
         <button
           onClick={handleSearch}
           disabled={isLoading}
-          className="text-[#1F43C0] hover:opacity-80 disabled:opacity-50 cursor-pointer"
+          className="text-[#0E1D40] hover:opacity-80 disabled:opacity-50 cursor-pointer"
           title="Search"
         >
           <Search size={24} />

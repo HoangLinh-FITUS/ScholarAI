@@ -13,16 +13,16 @@ export function Navbar() {
   }
 
   return (
-    <nav className="bg-[#1F43C0] border-b border-[#0D2580]">
+    <nav className="bg-[#0E1D40] border-b border-[#0D2580]">
       <div className="max-w-full px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="font-serif font-bold text-3xl text-[#9DFECB] hover:opacity-80 transition-opacity">
+        <Link href="/" className="font-serif font-bold text-3xl text-[#CCF5AC] hover:opacity-80 transition-opacity">
           DocBert
         </Link>
 
         <button
           onClick={handleLogout}
-          className="px-6 py-2 border-2 border-[#9DFECB] rounded-full text-[#9DFECB] font-serif font-bold text-lg hover:bg-[#9DFECB] hover:text-[#1F43C0] transition-colors"
+          className="px-6 py-2 border-2 border-[#CCF5AC] rounded-full text-[#CCF5AC] font-serif font-bold text-lg hover:bg-[#CCF5AC] hover:text-[#0E1D40] transition-colors"
         >
           Log out
         </button>

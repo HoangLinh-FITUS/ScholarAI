@@ -82,7 +82,7 @@ function ResultsContent() {
       <Navbar />
       <main className="max-w-6xl mx-auto px-4 py-8 flex-1">
         <div className="mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-[#1F43C0] hover:opacity-80 mb-4">
+          <Link href="/" className="inline-flex items-center gap-2 text-[#0E1D40] hover:opacity-80 mb-4">
             <ChevronLeft size={20} />
             Back to search
           </Link>
@@ -91,14 +91,14 @@ function ResultsContent() {
 
         {!isLoading && searchMode === "text" && query && (
           <div className="mb-6">
-            <h2 className="font-sans font-bold text-2xl text-[#1F43C0]">Search results for "{query}"</h2>
+            <h2 className="font-sans font-bold text-2xl text-[#0E1D40]">Search results for "{query}"</h2>
             <p className="text-gray-600 text-sm mt-1">Found {totalCount} documents</p>
           </div>
         )}
 
         {!isLoading && searchMode === "file" && (
           <div className="mb-6">
-            <h2 className="font-sans font-bold text-2xl text-[#1F43C0]">
+            <h2 className="font-sans font-bold text-2xl text-[#0E1D40]">
               {query ? `Search results for "${query}"` : `Search results from ${fileName}`}
             </h2>
             <p className="text-gray-600 text-sm mt-1">
@@ -109,7 +109,7 @@ function ResultsContent() {
 
         {isLoading && (
           <div className="flex items-center justify-center py-20">
-            <Loader className="animate-spin text-[#1F43C0]" size={32} />
+            <Loader className="animate-spin text-[#0E1D40]" size={32} />
           </div>
         )}
 

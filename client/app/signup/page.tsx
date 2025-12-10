@@ -44,17 +44,17 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1F43C0] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0E1D40] flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-12">
-          <h1 className="font-serif font-bold text-4xl text-[#9DFECB]">DocBert</h1>
-          <p className="text-[#9DFECB] mt-2 text-sm">Document Search Engine</p>
+          <h1 className="font-serif font-bold text-4xl text-[#CCF5AC]">DocBert</h1>
+          <p className="text-[#CCF5AC] mt-2 text-sm">Document Search Engine</p>
         </div>
 
         {/* Signup form */}
         <div className="bg-white rounded-lg p-8 shadow-lg">
-          <h2 className="font-sans font-bold text-2xl text-[#1F43C0] mb-6">Create Account</h2>
+          <h2 className="font-sans font-bold text-2xl text-[#0E1D40] mb-6">Create Account</h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name input */}
@@ -64,7 +64,7 @@ export default function SignupPage() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F43C0]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#0E1D40]"
                 placeholder="John Doe"
                 disabled={isLoading}
               />
@@ -77,7 +77,7 @@ export default function SignupPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F43C0]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#0E1D40]"
                 placeholder="you@example.com"
                 disabled={isLoading}
               />
@@ -90,7 +90,7 @@ export default function SignupPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F43C0]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#0E1D40]"
                 placeholder="••••••••"
                 disabled={isLoading}
               />
@@ -103,7 +103,7 @@ export default function SignupPage() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F43C0]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#0E1D40]"
                 placeholder="••••••••"
                 disabled={isLoading}
               />
@@ -116,7 +116,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#1F43C0] text-white font-bold py-2 rounded-lg hover:bg-[#0D2580] disabled:opacity-50 transition-colors mt-6"
+              className="w-full bg-[#0E1D40] text-white font-bold py-2 rounded-lg hover:bg-[#0D2580] disabled:opacity-50 transition-colors mt-6"
             >
               {isLoading ? "Creating account..." : "Sign Up"}
             </button>
@@ -125,7 +125,7 @@ export default function SignupPage() {
           {/* Login link */}
           <p className="text-center text-gray-600 text-sm mt-6">
             Already have an account?{" "}
-            <Link href="/login" className="text-[#1F43C0] font-semibold hover:underline">
+            <Link href="/login" className="text-[#0E1D40] font-semibold hover:underline">
               Sign in
             </Link>
           </p>

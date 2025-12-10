@@ -37,16 +37,16 @@ export default function HomePage() {
   // }
 
   return (
-    <div className="min-h-screen bg-[#1F43C0] flex flex-col">
+    <div className="min-h-screen bg-[#0E1D40] flex flex-col">
       <Navbar />
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-12">
         <div className="w-full max-w-2xl">
-          <h2 className="font-sans font-bold text-5xl md:text-6xl text-[#9DFECB] text-center mb-6">MyTalkingBert</h2>
+          <h2 className="font-sans font-bold text-5xl md:text-6xl text-[#CCF5AC] text-center mb-6">MyTalkingBert</h2>
 
           <p className="font-serif font-bold text-2xl md:text-3xl text-center mb-12">
-            <span className="text-[#9DFECB]">Hello! Ready to find the </span>
+            <span className="text-[#CCF5AC]">Hello! Ready to find the </span>
             <span className="text-white">documents</span>
-            <span className="text-[#9DFECB]"> you need?</span>
+            <span className="text-[#CCF5AC]"> you need?</span>
           </p>
 
           {/* <SearchBar onSearch={handleSearch} onFileUpload={handleFileUpload} isLoading={isLoading} /> */}

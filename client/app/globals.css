@@ -5,12 +5,12 @@
 
 :root {
   /* DocBert custom color scheme */
-  --primary-blue: #1f43c0;
-  --primary-green: #9dfecb;
-  --background-primary: #1f43c0;
+  --primary-blue: #0E1D40;
+  --primary-green: #CCF5AC;
+  --background-primary: #0E1D40;
   --text-light: #ffffff;
   --text-secondary: #e8f4f8;
-  --border-green: #9dfecb;
+  --border-green: #CCF5AC;
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
