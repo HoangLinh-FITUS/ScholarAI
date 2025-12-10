@@ -51,10 +51,11 @@ export const apiClient = {
   },
 
   // Search by uploading a file
-  async searchByFile(file: File) {
+  async searchByFile(file: File, limit=10) {
     const formData = new FormData()
     formData.append("file", file)
-    const response = await fetch(`${SEARCH_BASE_URL}/search-by-file`, {
+    
+    const response = await fetch(`${SEARCH_BASE_URL}/search-by-file?limit=${limit}`, {
       method: "POST",
       body: formData,
     })

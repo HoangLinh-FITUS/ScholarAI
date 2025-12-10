@@ -8,6 +8,7 @@ import "./globals.css"
 const blinker = Blinker({
   subsets: ["latin"],
   variable: "--font-blinker",
+  fallback: ['system-ui', 'Arial', 'sans-serif'],
   weight: ["400", "700"],
 })
 

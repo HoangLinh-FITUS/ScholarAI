@@ -27,8 +27,10 @@ function ResultsContent() {
     setIsLoading(true)
     try {
       const results = await apiClient.search(searchQuery)
-      setDocuments(results.documents || [])
-      setTotalCount(results.totalCount || 0)
+      console.log(results)
+      console.log(results[0].id)
+      setDocuments(results || [])
+      setTotalCount(results.length || 0)
     } catch (error) {
       console.error("Failed to fetch results:", error)
     } finally {
@@ -36,12 +38,34 @@ function ResultsContent() {
     }
   }
 
+  const fetchResultsFile = async (file: File) => {
+    try {
+      const results = await apiClient.searchByFile(file)
+      setDocuments(results || [])
+      setTotalCount(results.length || 0)
+    } catch (error) {
+      console.error("Failed to search by file:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  } 
+
   const handleSearch = async (newQuery: string) => {
     setIsLoading(true)
     const url = new URL(window.location.href)
     url.searchParams.set("q", newQuery)
     window.history.pushState({}, "", url)
     await fetchResults(newQuery)
+  }
+
+  const handleFileSearch = async (file: File) => {
+    setIsLoading(true)
+
+    const url = new URL(window.location.href)
+    url.searchParams.delete("q")
+    window.history.pushState({}, "", url)
+
+    await fetchResultsFile(file)
   }
 
   return (
@@ -53,7 +77,7 @@ function ResultsContent() {
             <ChevronLeft size={20} />
             Back to search
           </Link>
-          <SearchBar onSearch={handleSearch} isLoading={isLoading} />
+          <SearchBar onSearch={handleSearch} onFileUpload={handleFileSearch} isLoading={isLoading} />
         </div>
 
         {!isLoading && query && (
