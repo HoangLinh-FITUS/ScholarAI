@@ -33,7 +33,7 @@ export function SearchBar({ onSearch, onFileUpload, isLoading = false }: SearchB
         {onFileUpload && (
           <input
             type="file"
-            accept=".pdf,.txt,.doc,.docx"
+            accept=".pdf"
             onChange={handleFileChange}
             className="hidden"
             title="Upload a document"
