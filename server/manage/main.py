@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import search
 
-
 app = FastAPI(title="Search Management") 
 
 app.add_middleware(

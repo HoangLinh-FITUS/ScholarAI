@@ -1,53 +1,95 @@
 from fastapi import APIRouter, HTTPException, Query, File, UploadFile
 from dataclasses import dataclass
+import requests 
+from pdfminer.high_level import extract_text
+import tempfile
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+import os
+
+import config
 
 router = APIRouter()
 
 @dataclass
 class QuerySentence:
     query: str
-    limit: int
+    limit: int = 10
+
+
+def chunk_text(text: str, max_len: int = config.MAX_CHUNK_LEN):
+    text = text.strip()
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = min(start + max_len, len(text))
+        chunk = text[start:end].strip()
+        if chunk:
+            chunks.append(chunk)
+        start = end
+    return chunks
+
+
+async def extract_pdf_text_async(file_bytes: bytes) -> str:
+    loop = asyncio.get_event_loop()
+
+    def _extract():
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            tmp_path = tmp.name
+            tmp.write(file_bytes)
+
+        try:
+            return extract_text(tmp_path)
+        finally:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+
+    return await loop.run_in_executor(ThreadPoolExecutor(), _extract)
 
 
 @router.post('/search')
 async def with_sentence(body: QuerySentence):
+    response = requests.post(config.API_PREDICT, json={
+        "query": body.query,
+        "limit": body.limit
+    })
     
-    res = []
-    for _ in range(body.limit):
-        id = f'0704.000{_}'
+    if not response.ok: return HTTPException(status_code=404, detail="Fetch API Predict Failed")
+    
+    res = [] 
+    for d in response.json():
         res.append({
-            'id': id,
-            'title': 'Calculation of prompt diphoton production cross sections at Tevatron and LHC energies',
-            'abstract': 'A fully differential calculation in perturbative quantum chromodynamics is presented for the production of massive photon pairs at hadron colliders. All next-to-leading order perturbative contributions from quark-antiquark, gluon-(anti)quark, and gluon-gluon subprocesses are included, as well as all-orders resummation of initial-state gluon radiation valid at next-to-next-to-leading logarithmic accuracy. The region of phase space is specified in which the calculation is most reliable. Good agreement is demonstrated with data from the Fermilab Tevatron, and predictions are made for more detailed tests with CDF and DO data. Predictions are shown for distributions of diphoton pairs produced at the energy of the Large Hadron Collider (LHC). Distributions of the diphoton pairs from the decay of a Higgs boson are contrasted with those produced from QCD processes at the LHC, showing that enhanced sensitivity to the signal can be obtained with judicious selection of events.',
-            'publicationDate': '2008-11-26',
-            "relevanceScore": 0.9,
-            'url_abs': f'https://arxiv.org/abs/{id}',
-            'url_pdf': f'https://arxiv.org/pdf/{id}',
+            "id": d["id"],
+            "url_abs": d["link"],
+            "url_pdf": d["link"],
+            "relevanceScore": d["score"],
+            "title": d["headline"],
+            "abstract": d["short_description"],
+            "publicationDate": d["date"],
+            "category": d["category"],
+            "authors": d["authors"], 
         })
     
     return res
-    
+
 
 @router.post('/search-by-file')
 async def with_file(
     limit: int,
     file: UploadFile = File(...),
 ):
+    filename = file.filename.lower()
+    if not filename.endswith(".pdf"):
+        raise HTTPException(status_code=400,detail="File extension must be .pdf")
+
+    file_bytes: bytes = await file.read()
+    pdf_text = await extract_pdf_text_async(file_bytes)
     
-    file: bytes = await file.read()
-    # print(file)
-    
-    res = []
-    for _ in range(limit):
-        id = f'0704.000{_}'
-        res.append({
-            'id': id,
-            'title': 'Calculation of prompt diphoton production cross sections at Tevatron and LHC energies',
-            'abstract': 'A fully differential calculation in perturbative quantum chromodynamics is presented for the production of massive photon pairs at hadron colliders. All next-to-leading order perturbative contributions from quark-antiquark, gluon-(anti)quark, and gluon-gluon subprocesses are included, as well as all-orders resummation of initial-state gluon radiation valid at next-to-next-to-leading logarithmic accuracy. The region of phase space is specified in which the calculation is most reliable. Good agreement is demonstrated with data from the Fermilab Tevatron, and predictions are made for more detailed tests with CDF and DO data. Predictions are shown for distributions of diphoton pairs produced at the energy of the Large Hadron Collider (LHC). Distributions of the diphoton pairs from the decay of a Higgs boson are contrasted with those produced from QCD processes at the LHC, showing that enhanced sensitivity to the signal can be obtained with judicious selection of events.',
-            'publicationDate': '2008-11-26',
-            "relevanceScore": 0.9,
-            'url_abs': f'https://arxiv.org/abs/{id}',
-            'url_pdf': f'https://arxiv.org/pdf/{id}',
-        })
+    if not pdf_text.strip():
+        raise HTTPException(status_code=400, detail="PDF contains no extractable text")
+
+    chunks = chunk_text(pdf_text)
+
+    res = await with_sentence(QuerySentence(chunks[0], limit))
     
     return res

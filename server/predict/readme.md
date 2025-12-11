@@ -1,0 +1,1 @@
+Chạy Trên Colab lấy link grok rồi vào trong folder manage bỏ link vào file .env 

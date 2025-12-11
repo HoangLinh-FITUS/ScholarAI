@@ -18,3 +18,5 @@ services:
         build: ./server/manage 
         ports: 
             - 8001:8001 
+        env_file:
+            - ./server/manage/.env
