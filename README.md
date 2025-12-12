@@ -1,6 +1,6 @@
 # ScholarAI
 
-The system retrieves the most relevant and semantically similar news articles based on either a textual query or an uploaded PDF file. For PDF inputs, the system automatically extracts the document’s text before processing. A fine-tuned BERT model is then used to generate high-quality embeddings of the content, enabling accurate similarity computation and ranking of the most relevant news articles in the corpus.
+The system identifies and returns news articles that share the same predicted category label as the user’s input, whether provided as a textual query or an uploaded PDF file. For PDF inputs, the system automatically extracts the text before processing. A fine-tuned BERT model is used solely to predict the category of the input, and the system then retrieves all news articles that match this predicted label without performing any ranking.
 
 # Architecture Diagram
 ![alt text](<assets/architecture.png>)
