@@ -1,20 +1,19 @@
-
 # API Documentation — `server/users`
 
-**Tổng quan**
+**Overview**
 - **Framework**: FastAPI
-- **Authentication / Auth backend**: Firebase Admin SDK (service account) + Firebase Identity REST API (để login)
-- **Firestore**: lưu thông tin user trong collection `users`
+- **Authentication / Auth backend**: Firebase Admin SDK (service account) + Firebase Identity REST API (for login)
+- **Firestore**: Stores user information in the `users` collection
 - **Env / config**:
-	- `API_KEY_FIREBASE` — API key cho Firebase Identity REST API (dùng cho login)
-	- `serviceAccountKey.json` — credentials cho Firebase Admin SDK (đường dẫn được cấu hình trong `config.py`)
+	- `API_KEY_FIREBASE` — API key for Firebase Identity REST API (used for login)
+	- `serviceAccountKey.json` — Credentials for the Firebase Admin SDK (path configured in `config.py`)
 
-Chạy server (ở thư mục `server/users`):
+Run server (in `server/users` directory):
 ```powershell
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Base URL mặc định (khi chạy local với uvicorn): `http://localhost:8000`
+Default Base URL (when running locally with uvicorn): `http://localhost:8000`
 
 ----
 
@@ -23,9 +22,9 @@ Base URL mặc định (khi chạy local với uvicorn): `http://localhost:8000`
 1) Auth Router (prefix: `/auth`)
 
 - POST `/auth/register`
-	- Mục đích: Tạo user mới trong Firebase Auth, lưu metadata vào Firestore và trả link verify email.
-	- ghi chú: <uid> là (user id)
-	- Body (JSON):
+	- **Purpose**: Create a new user in Firebase Auth, save metadata to Firestore, and return an email verification link.
+	- **Note**: `<uid>` is the user ID.
+	- **Body (JSON)**:
 		```json
 		{
 			"email": "user@example.com",
@@ -36,79 +35,76 @@ Base URL mặc định (khi chạy local với uvicorn): `http://localhost:8000`
 		}
 		```
 
-	- Success Response (200):
+	- **Success Response (200)**:
 		```json
 		{
 			"uid": "<uid>", 
 			"verification_link": "<email verification link>"
 		}
 		```
-	- Lỗi phổ biến:
-		- 400: `ValueError`, `EmailAlreadyExistsError` hoặc lỗi chung khác.
+	- **Common Errors**:
+		- 400: `ValueError`, `EmailAlreadyExistsError`, or other general errors.
 
 
 - GET `/auth/login`
-	- Mục đích: Đăng nhập bằng email/password thông qua Firebase Identity REST API (returns tokens).
-	- Tham số (query): `email` (string), `password` (string)
-	- Hành vi: gọi endpoint `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={API_KEY_FIREBASE}`
-	- Success Response (200): trả nguyên response JSON từ Firebase gồm `idToken`, `refreshToken`, `expiresIn`, `localId` (user id), ...
-	- Lỗi: trả 400 với detail `login failed` nếu Firebase trả lỗi.
+	- **Purpose**: Log in using email/password via Firebase Identity REST API (returns tokens).
+	- **Parameters (query)**: `email` (string), `password` (string)
+	- **Behavior**: Calls endpoint `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={API_KEY_FIREBASE}`
+	- **Success Response (200)**: Returns the raw JSON response from Firebase including `idToken`, `refreshToken`, `expiresIn`, `localId` (user id), etc.
+	- **Error**: Returns 400 with detail `login failed` if Firebase returns an error.
 
 
 - POST `/auth/reset_password`
-	- Mục đích: Tạo link reset password cho email.
-	- Tham số: `email` (hiện hàm định nghĩa `email: str` — FastAPI sẽ nhận từ query param cho POST nếu không dùng Body annotation)
-	- Hành vi: `auth.generate_password_reset_link(email=email)`
-	- Success Response (200):
+	- **Purpose**: Generate a password reset link for an email.
+	- **Parameters**: `email` (currently defined as `email: str` — FastAPI will receive this from a query param for POST if no Body annotation is used).
+	- **Behavior**: `auth.generate_password_reset_link(email=email)`
+	- **Success Response (200)**:
 		```json
 		{ "link_reset": "<reset link>" }
 		```
-	- Lỗi:
+	- **Error**:
 		- 404: `UnexpectedResponseError` -> "User not found"
-		- 500: lỗi Firebase khác
+		- 500: Other Firebase errors
 
 
-1) Users Router (prefix: `/users`)
+2) Users Router (prefix: `/users`)
 
 - DELETE `/users/`
-	- Mục đích: Xóa user (Auth + Firestore) theo email
-	- Tham số (query): `email` (string)
-	- Hành vi: `auth.get_user_by_email` -> `auth.delete_user(uid)` -> `db.collection('users').document(uid).delete()`
-	- Success Response (200):
+	- **Purpose**: Delete a user (Auth + Firestore) by email.
+	- **Parameters (query)**: `email` (string)
+	- **Behavior**: `auth.get_user_by_email` -> `auth.delete_user(uid)` -> `db.collection('users').document(uid).delete()`
+	- **Success Response (200)**:
 		```json
 		{ "uid": "<uid>", "success": "true" }
 		```
-	- Lỗi: 400 nếu có exception (ValueError hoặc chung)
+	- **Error**: 400 if an exception occurs (ValueError or general).
 
 
 - GET `/users/`
-	- Mục đích: Lấy thông tin user (Auth + DB) theo email
-	- Tham số (query): `email` (string)
-	- Hành vi: `auth.get_user_by_email(email)` -> đọc document Firestore `users/{uid}`
-	- Success Response (200):
+	- **Purpose**: Retrieve user information (Auth + DB) by email.
+	- **Parameters (query)**: `email` (string)
+	- **Behavior**: `auth.get_user_by_email(email)` -> reads Firestore document `users/{uid}`
+	- **Success Response (200)**:
 		```json
 		{
-			"auth_user": { /* raw user._data từ firebase_admin */ },
-			"db_user": { /* document fields từ Firestore */ }
+			"auth_user": { /* raw user._data from firebase_admin */ },
+			"db_user": { /* document fields from Firestore */ }
 		}
 		```
-	- Lỗi: 404 nếu user không tìm thấy hoặc document không tồn tại
+	- **Error**: 404 if user is not found or document does not exist.
 
 
 - GET `/users/users`
-	- Mục đích: Liệt kê users (pagination) từ Firebase Auth
-	- Tham số (query):
-		- `page_token` (string, optional): token cho trang tiếp theo (mặc định None cho trang đầu)
-		- `max_results` (int, default=100, 1-1000): số user tối đa/trang
-	- Hành vi: `auth.list_users(page_token=..., max_results=...)` — trả về `page.users` và `page.next_page_token`. Implementation hiện tại gọi `get_user(user.email)` cho mỗi user (tức sẽ gọi lại endpoint get_user để lấy info DB + auth raw data).
-	- Success Response (200):
+	- **Purpose**: List users (pagination) from Firebase Auth.
+	- **Parameters (query)**:
+		- `page_token` (string, optional): Token for the next page (default is None for the first page).
+		- `max_results` (int, default=100, 1-1000): Max users per page.
+	- **Behavior**: `auth.list_users(page_token=..., max_results=...)` — returns `page.users` and `page.next_page_token`. Current implementation calls `get_user(user.email)` for each user (meaning it will recall the get_user endpoint to fetch DB info + auth raw data).
+	- **Success Response (200)**:
 		```json
 		{
-			"users": [ /* mảng user objects từ get_user(...) */ ],
+			"users": [ /* array of user objects from get_user(...) */ ],
 			"next_page_token": "<token or null>"
 		}
 		```
-	- Lỗi: 400 cho exception chung
-
-
-
+	- **Error**: 400 for general exceptions.

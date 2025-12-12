@@ -1,53 +1,52 @@
-
 # API Documentation — `server/manage`
 
-Tài liệu này mô tả các endpoint của microservice tìm kiếm (Search Management) viết bằng FastAPI.
+This service is responsible for receiving search queries (text or PDF upload), extracting content when necessary, and calling the prediction API (predictor) to return a list of normalized results.
 
-**Tổng quan**
+**Overview**
 - **Framework**: FastAPI
-- **Mục đích**: cung cấp API tìm kiếm theo câu truy vấn hoặc theo file upload (ví dụ: trích xuất nội dung và tìm tương đồng).
-- **Chạy server** (ở `server/manage`):
+- **Purpose**: Provides a search API based on search queries or uploaded files (e.g., content extraction and similarity search).
+- **Run server** (in `server/manage` directory):
 ```powershell
 uvicorn main:app --reload --host 0.0.0.0 --port 8001
 ```
 
-Base URL mặc định khi chạy local: `http://localhost:8001`
+Default Base URL when running locally: `http://localhost:8001`
 
 ----
 
 **APIs**
 
-Router được include trong `main.py` (không có prefix), do đó endpoints là root paths như bên dưới.
+The router is included in `main.py` (without a prefix), so the endpoints are root paths as shown below.
 
 1) POST `/search`
-	- Mục đích: Tìm kiếm theo câu truy vấn (text) và trả về danh sách kết quả mẫu.
-	- Request body: JSON body có shape tương ứng: 
+	- **Purpose**: Search by query (text) and return a list of results.
+	- **Request body**: JSON body with the corresponding shape:
         ```json
         {
             "query": string, 
             "limit": int
         }
         ```
-	- Response: mảng JSON, mỗi phần tử là object chứa `id`, `title`, `abstract`, `update_date`, `url_abs`, `url_pdf`.
-	- Ví dụ response (mã giả):
+	- **Response**: JSON array, where each element is an object containing `id`, `title`, `abstract`, `update_date`, `url_abs`, `url_pdf`.
+	- **Response example (pseudo-code)**:
 		```json
 		[
 			{
-				"id": "0704.0001",
+				"id": "1",
 				"title": "Calculation of prompt diphoton production cross sections at Tevatron and LHC energies",
 				"abstract": "A fully differential calculation...",
 				"update_date": "2008-11-26",
-				"url_abs": "https://arxiv.org/abs/0704.0001",
-				"url_pdf": "https://arxiv.org/pdf/0704.0001"
+				"url_abs": "https://....",
+				"url_pdf": "https://...."
 			},
 			...
 		]
 		```
 
 2) POST `/search-by-file`
-	- Mục đích: Tìm kiếm dựa trên nội dung file upload (ví dụ: tải lên PDF/TXT, trích nội dung và tìm tương đồng).
-	- Tham số:
-		- `limit` (required query param): số kết quả mong muốn (kiểu `int`).
-		- `file` (form-data, required): file upload, dùng `multipart/form-data`.
+	- **Purpose**: Search based on uploaded file content (e.g., upload PDF/TXT, extract content, and find similarities).
+	- **Parameters**:
+		- `limit` (required query param): desired number of results (type `int`).
+		- `file` (form-data, required): uploaded file, uses `multipart/form-data`.
 
-	- Ví dụ response: tương tự endpoint `/search` (mảng object kết quả)
+	- **Response example**: Similar to the `/search` endpoint (array of result objects).
