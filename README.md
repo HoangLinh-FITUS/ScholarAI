@@ -74,4 +74,4 @@ cd server/manage && uvicorn main:app --reload --host 0.0.0.0 --port 8001
 Set `API_PREDICT` to your running predictor before testing manage endpoints.
 
 # Demo 
-link: https://youtu.be/Rdy1WJ1J1oY
+https://youtu.be/Rdy1WJ1J1oY
