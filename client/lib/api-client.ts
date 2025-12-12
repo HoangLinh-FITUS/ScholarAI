@@ -43,7 +43,7 @@ export const apiClient = {
   },
 
   // Search for documents
-  async search(query: string, limit = 10, offset = 0) {
+  async search(query: string, limit = 1000, offset = 0) {
     const response = await fetch(`${SEARCH_BASE_URL}/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -54,7 +54,7 @@ export const apiClient = {
   },
 
   // Search by uploading a file
-  async searchByFile(file: File, limit=10) {
+  async searchByFile(file: File, limit=1000) {
     const formData = new FormData()
     formData.append("file", file)
     
