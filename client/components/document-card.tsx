@@ -29,7 +29,7 @@ export function DocumentCard({ document }: DocumentCardProps) {
         <div className="flex justify-between items-center text-xs text-gray-500">
           <span>{new Date(document.publicationDate).toLocaleDateString("vi-VN")}</span>
           <span className="font-sans font-bold text-[#0E1D40]">
-            {(document.relevanceScore * 100).toFixed(0)}% match
+            {(document.relevanceScore * 100).toFixed(1)}% match
           </span>
         </div>
       </article>
