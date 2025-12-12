@@ -30,6 +30,7 @@ Description of each component:
 # Environment & Secrets
 - Each service has its own `.env` (copy from `*.env.example`).
 - Sensitive files (e.g., `serviceAccountKey.json`) should not be committed publicly. The team stores shared secrets in Google Drive; replace `.example` files using items from the shared link: [Drive](https://drive.google.com/drive/folders/14mXVBw-TFMgtKJ3yng_V9HZ98oszseGo?usp=sharing).
+- News_Category_Dataset_v3 datasets: [link](https://www.kaggle.com/datasets/linhtrnhong/News-Category-Dataset-v3/data).
 
 Minimal env overview:
 - `server/users/.env`: `API_KEY_FIREBASE` (Firebase Identity REST API key). Place `serviceAccountKey.json` in `server/users/`.
