@@ -31,6 +31,7 @@ Description of each component:
 - Each service has its own `.env` (copy from `*.env.example`).
 - Sensitive files (e.g., `serviceAccountKey.json`) should not be committed publicly. The team stores shared secrets in Google Drive; replace `.example` files using items from the shared link: [Drive](https://drive.google.com/drive/folders/14mXVBw-TFMgtKJ3yng_V9HZ98oszseGo?usp=sharing).
 - News_Category_Dataset_v3 datasets: [link](https://www.kaggle.com/datasets/linhtrnhong/News-Category-Dataset-v3/data).
+- Model: [link](https://huggingface.co/VTKK/bert-news-category-classification)
 
 Minimal env overview:
 - `server/users/.env`: `API_KEY_FIREBASE` (Firebase Identity REST API key). Place `serviceAccountKey.json` in `server/users/`.
@@ -72,3 +73,4 @@ cd server/manage && uvicorn main:app --reload --host 0.0.0.0 --port 8001
 ```
 Set `API_PREDICT` to your running predictor before testing manage endpoints.
 
+# Demo 
